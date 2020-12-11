@@ -50,10 +50,11 @@ const Quote = () => {
 				setFade(true);
 				setTimeout(function () {
 					setQuote(response.quote);
-					let newQuoteList = quoteList;
+					let newQuoteList = quoteList.reverse();
 					newQuoteList.push(response.quote);
+					newQuoteList = newQuoteList.reverse();
 					setTimeout(() => {
-						setQuoteList(newQuoteList.reverse());
+						setQuoteList(newQuoteList);
 					}, 2000);
 				}, 1000);
 				setTimeout(function () {
