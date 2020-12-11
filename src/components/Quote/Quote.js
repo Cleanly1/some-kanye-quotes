@@ -43,6 +43,7 @@ class Quote extends React.Component {
 			fade: false,
 			quoteList: [],
 			quoteTime: 0,
+			lengthOfList: 0,
 		};
 	}
 
@@ -81,7 +82,10 @@ class Quote extends React.Component {
 						let newQuoteList = this.state.quoteList.reverse();
 						newQuoteList.push(response.quote);
 						newQuoteList = newQuoteList.reverse();
-						this.setState({ quoteList: newQuoteList });
+						this.setState({
+							quoteList: newQuoteList,
+							lengthOfList: this.state.lengthOfList + 1,
+						});
 					}, 1500);
 				}, 1000);
 				setTimeout(() => {
@@ -103,7 +107,11 @@ class Quote extends React.Component {
 				<QuoteList>
 					{this.state.quoteList &&
 						this.state.quoteList.map((quote, i) => {
-							return <ListItem key={i}>{quote}</ListItem>;
+							return (
+								<ListItem key={i}>
+									{this.state.lengthOfList - i}: {quote}
+								</ListItem>
+							);
 						})}
 				</QuoteList>
 			</>
