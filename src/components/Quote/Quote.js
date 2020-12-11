@@ -38,7 +38,7 @@ class Quote extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			interval: 7,
+			interval: 8,
 			quote: "",
 			fade: false,
 			quoteList: [],
@@ -77,12 +77,12 @@ class Quote extends React.Component {
 				this.setState({ fade: true });
 				setTimeout(() => {
 					this.setState({ quote: response.quote });
-					let newQuoteList = this.state.quoteList.reverse();
-					newQuoteList.push(response.quote);
-					newQuoteList = newQuoteList.reverse();
 					setTimeout(() => {
+						let newQuoteList = this.state.quoteList.reverse();
+						newQuoteList.push(response.quote);
+						newQuoteList = newQuoteList.reverse();
 						this.setState({ quoteList: newQuoteList });
-					}, 2000);
+					}, 1500);
 				}, 1000);
 				setTimeout(() => {
 					this.setState({ fade: false });

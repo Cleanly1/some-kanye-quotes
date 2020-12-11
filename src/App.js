@@ -11,6 +11,12 @@ function App() {
 				<h1>Here are some Kanye Quotes:</h1>
 				<Quote />
 				<Clock />
+				<p>
+					And yes it will keep going and going{" "}
+					<span role="img" aria-label="Winking emoij">
+						😉
+					</span>
+				</p>
 			</Container>
 		</div>
 	);
