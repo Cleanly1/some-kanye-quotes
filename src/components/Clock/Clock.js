@@ -17,29 +17,35 @@ const Text = styled.p`
 	font-weight: bold;
 `;
 
-const Clock = () => {
-	const theTime = () => {
-		const d = new Date();
-		return d.toLocaleTimeString();
+class Clock extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			clock: new Date().toLocaleTimeString(),
+		};
+	}
+
+	theTime = () => {
+		this.setState({ clock: new Date().toLocaleTimeString() });
 	};
 
-	const [clock, setClock] = React.useState(theTime());
-
-	React.useEffect(() => {
-		const clockTimer = setInterval(() => {
-			setClock(theTime());
+	componentDidMount() {
+		this.clockTimer = setInterval(() => {
+			this.theTime();
 		}, 1000);
+	}
 
-		return () => {
-			clearInterval(clockTimer);
-		};
-	});
+	componentWillUnmount() {
+		clearInterval(this.state.clockTimer);
+	}
 
-	return (
-		<StyledDiv>
-			<Text>{clock}</Text>
-		</StyledDiv>
-	);
-};
+	render() {
+		return (
+			<StyledDiv>
+				<Text>{this.state.clock}</Text>
+			</StyledDiv>
+		);
+	}
+}
 
 export default Clock;

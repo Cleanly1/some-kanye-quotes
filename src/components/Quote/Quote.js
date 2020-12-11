@@ -47,6 +47,7 @@ class Quote extends React.Component {
 	}
 
 	componentDidMount() {
+		this.getQuote();
 		this.timerID = setInterval(
 			() => this.getQuote(),
 			this.state.interval * 1000
