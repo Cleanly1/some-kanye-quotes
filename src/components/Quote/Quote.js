@@ -34,57 +34,80 @@ const ListItem = styled.li`
 	border-bottom: solid 1px rgba(255, 255, 255, 0.4);
 `;
 
-const Quote = () => {
-	const interval = 10;
-	const [fade, setFade] = useState();
-	const [quote, setQuote] = useState();
-	const [quoteList, setQuoteList] = useState([]);
-	const [loaded, setLoaded] = useState(false);
-	const getQuote = () => {
-		setLoaded(true);
+class Quote extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			interval: 7,
+			quote: "",
+			fade: false,
+			quoteList: [],
+			quoteTime: 0,
+		};
+	}
+
+	componentDidMount() {
+		this.timerID = setInterval(
+			() => this.getQuote(),
+			this.state.interval * 1000
+		);
+		this.clockID = setInterval(() => {
+			let time = this.state.quoteTime;
+			time -= 1;
+			if (time < 0) {
+				this.setState({ quoteTime: this.state.interval - 1 });
+			} else {
+				this.setState({ quoteTime: time });
+			}
+		}, 1000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.timerID);
+		clearInterval(this.clockID);
+	}
+
+	getQuote() {
 		fetch("https://api.kanye.rest")
 			.then(function (response) {
 				return response.json();
 			})
-			.then(function (response) {
-				setFade(true);
-				setTimeout(function () {
-					setQuote(response.quote);
-					let newQuoteList = quoteList.reverse();
+			.then((response) => {
+				this.setState({ fade: true });
+				setTimeout(() => {
+					this.setState({ quote: response.quote });
+					let newQuoteList = this.state.quoteList.reverse();
 					newQuoteList.push(response.quote);
 					newQuoteList = newQuoteList.reverse();
 					setTimeout(() => {
-						setQuoteList(newQuoteList);
+						this.setState({ quoteList: newQuoteList });
 					}, 2000);
 				}, 1000);
-				setTimeout(function () {
-					setFade(false);
+				setTimeout(() => {
+					this.setState({ fade: false });
 				}, 1200);
 			});
-	};
+	}
 
-	useEffect(() => {
-		if (!loaded) {
-			getQuote();
-			setInterval(() => getQuote(), interval * 1000);
-		}
-	});
-
-	return (
-		<>
-			<QuoteContainer>
-				<QuoteText fade={fade}>{quote}</QuoteText>
-			</QuoteContainer>
-
-			<h1>List of your quotes:</h1>
-			<QuoteList>
-				{quoteList &&
-					quoteList.map((quote, i) => {
-						return <ListItem key={i}>{quote}</ListItem>;
-					})}
-			</QuoteList>
-		</>
-	);
-};
+	render() {
+		return (
+			<>
+				<QuoteContainer>
+					<QuoteText fade={this.state.fade}>
+						{this.state.quote}
+					</QuoteText>
+				</QuoteContainer>
+				<p>New quote in: {this.state.quoteTime}</p>
+				<h1>List of your quotes:</h1>
+				<QuoteList>
+					{this.state.quoteList &&
+						this.state.quoteList.map((quote, i) => {
+							return <ListItem key={i}>{quote}</ListItem>;
+						})}
+				</QuoteList>
+			</>
+		);
+	}
+}
 
 export default Quote;

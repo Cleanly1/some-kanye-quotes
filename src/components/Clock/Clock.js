@@ -26,9 +26,13 @@ const Clock = () => {
 	const [clock, setClock] = React.useState(theTime());
 
 	React.useEffect(() => {
-		setInterval(() => {
+		const clockTimer = setInterval(() => {
 			setClock(theTime());
 		}, 1000);
+
+		return () => {
+			clearInterval(clockTimer);
+		};
 	});
 
 	return (
