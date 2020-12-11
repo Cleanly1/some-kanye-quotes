@@ -41,6 +41,7 @@ const Quote = () => {
 	const [quoteList, setQuoteList] = useState([]);
 	const [loaded, setLoaded] = useState(false);
 	const getQuote = () => {
+		setLoaded(true);
 		fetch("https://api.kanye.rest")
 			.then(function (response) {
 				return response.json();
@@ -52,7 +53,7 @@ const Quote = () => {
 					let newQuoteList = quoteList;
 					newQuoteList.push(response.quote);
 					setTimeout(() => {
-						setQuoteList(newQuoteList);
+						setQuoteList(newQuoteList.reverse());
 					}, 2000);
 				}, 1000);
 				setTimeout(function () {
@@ -65,9 +66,8 @@ const Quote = () => {
 		if (!loaded) {
 			getQuote();
 			setInterval(() => getQuote(), interval * 1000);
-			setLoaded(true);
 		}
-	}, [loaded]);
+	});
 
 	return (
 		<>
