@@ -3,7 +3,8 @@
 This is a useless website like many other. This perticular website is about the great Kanye West and shows some of hes quotes.
 I hope you have fun with this 😁
 
-You can choose to clone this project to your computer using `$ git clone https://github.com/Cleanly1/some-kanye-quotes.git`
+You can choose to clone this project to your computer using:
+`$ git clone https://github.com/Cleanly1/some-kanye-quotes.git`
 
 or
 

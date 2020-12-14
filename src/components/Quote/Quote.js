@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const QuoteContainer = styled.div`
-	width: 80%;
+	max-width: 80%;
 	min-height: 20vh;
 	padding: 3rem;
 	background-color: rgba(0, 0, 0, 0.6);
@@ -22,7 +22,7 @@ const QuoteText = styled.h1`
 const QuoteList = styled.ul`
 	list-style: none;
 	margin: 0;
-	width: 80%;
+	max-width: 80%;
 	padding: 3rem;
 	background-color: rgba(0, 0, 0, 0.7);
 	border-radius: 5px;
@@ -32,6 +32,11 @@ const ListItem = styled.li`
 	padding: 5px;
 	margin: 5px 0;
 	border-bottom: solid 1px rgba(255, 255, 255, 0.4);
+`;
+
+const StyledH1 = styled.h1`
+	max-width: 80%;
+	text-align: center;
 `;
 
 class Quote extends React.Component {
@@ -48,16 +53,12 @@ class Quote extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getQuote();
-		this.timerID = setInterval(
-			() => this.getQuote(),
-			this.state.interval * 1000
-		);
-		this.clockID = setInterval(() => {
+		this.timerID = setInterval(() => {
 			let time = this.state.quoteTime;
 			time -= 1;
 			if (time < 0) {
-				this.setState({ quoteTime: this.state.interval - 1 });
+				this.setState({ quoteTime: this.state.interval });
+				this.getQuote();
 			} else {
 				this.setState({ quoteTime: time });
 			}
@@ -66,7 +67,6 @@ class Quote extends React.Component {
 
 	componentWillUnmount() {
 		clearInterval(this.timerID);
-		clearInterval(this.clockID);
 	}
 
 	getQuote() {
@@ -103,7 +103,7 @@ class Quote extends React.Component {
 					</QuoteText>
 				</QuoteContainer>
 				<p>New quote in: {this.state.quoteTime}</p>
-				<h1>List of your quotes:</h1>
+				<StyledH1>List of your quotes:</StyledH1>
 				<QuoteList>
 					{this.state.quoteList &&
 						this.state.quoteList.map((quote, i) => {
